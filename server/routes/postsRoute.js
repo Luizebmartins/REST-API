@@ -19,4 +19,9 @@ router.put('/posts/:id', async (req, res) => {
     res.end()
 })
 
+router.delete('/posts/:id', async (req, res) => {
+    await postService.deletePost(req.params.id)
+    res.end()
+})
+
 module.exports = router

@@ -40,7 +40,7 @@ test('should save a posts', async function () {
 
 })
 
-test.only('should update a posts', async function () {
+test('should update a posts', async function () {
     const post = await postsService.savePost({ title: generate(), content: generate() })
    
     post.title = generate()
@@ -51,5 +51,15 @@ test.only('should update a posts', async function () {
     expect(updatedPost.title).toBe(post.title)
     expect(updatedPost.content).toBe(post.content)
     await postsService.deletePost(post.id)
+
+})
+
+test('should delete a posts', async function () {
+    const post = await postsService.savePost({ title: generate(), content: generate() })
+   
+    
+    await request(`http://localhost:3000/posts/${post.id}`, 'delete')
+    const posts = await postsService.getPosts()
+    expect(posts).toHaveLength(0)
 
 })
