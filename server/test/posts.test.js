@@ -8,10 +8,10 @@ const generate = function () {
 }
 
 const request = function (url, method, data) {
-    return axios({url, method, data })
+    return axios({ url, method, data })
 }
 
-test('should get posts', async function () {
+test('should get a posts', async function () {
 
     const post1 = await postsService.savePost({ title: generate(), content: generate() })
     const post2 = await postsService.savePost({ title: generate(), content: generate() })
@@ -26,7 +26,7 @@ test('should get posts', async function () {
     await postsService.deletePost(post3.id)
 })
 
-test('should save posts', async function () {
+test('should save a posts', async function () {
 
     const data = { title: generate(), content: generate() }
 
@@ -36,6 +36,20 @@ test('should save posts', async function () {
     const post = response.data
     expect(post.title).toBe(data.title)
     expect(post.content).toBe(data.content)
+    await postsService.deletePost(post.id)
+
+})
+
+test.only('should update a posts', async function () {
+    const post = await postsService.savePost({ title: generate(), content: generate() })
+   
+    post.title = generate()
+    post.content = generate()
+    await request(`http://localhost:3000/posts/${post.id}`, 'put', post)
+
+    const updatedPost = await postsService.getPost(post.id)
+    expect(updatedPost.title).toBe(post.title)
+    expect(updatedPost.content).toBe(post.content)
     await postsService.deletePost(post.id)
 
 })

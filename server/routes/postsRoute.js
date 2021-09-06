@@ -13,5 +13,10 @@ router.post('/posts', async (req, res) => {
     res.json(newPost)
 })
 
+router.put('/posts/:id', async (req, res) => {
+    const post = req.body
+    await postService.updatePost(req.params.id, post)
+    res.end()
+})
 
 module.exports = router
