@@ -26,15 +26,16 @@ test('should get posts', async function () {
     await postsService.deletePost(post3.id)
 })
 
-test.only('should save posts', async function () {
+test('should save posts', async function () {
 
-    const post1 = { title: generate(), content: generate() }
+    const data = { title: generate(), content: generate() }
 
 
-    const response = await request('http://localhost:3000/posts',)
- 
-    const posts = response.data
+    const response = await request('http://localhost:3000/posts', 'post', data)
 
-    await postsService.deletePost(post1.id)
+    const post = response.data
+    expect(post.title).toBe(data.title)
+    expect(post.content).toBe(data.content)
+    await postsService.deletePost(post.id)
 
 })
